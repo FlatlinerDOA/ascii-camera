@@ -11,6 +11,7 @@
 	var widthInput = document.getElementById("captureWidth");
 	var heightInput = document.getElementById("captureHeight");
 	var contrastInput = document.getElementById("contrast");
+	var charactersInput = document.getElementById("characters");
 	var capturing = false;
 	
 	camera.init({
@@ -22,6 +23,7 @@
 		onFrame: function(canvas) {
 			ascii.fromCanvas(canvas, {
 				contrast: parseInt(contrastInput.value) || 128,
+				characters: charactersInput.value,
 				callback: function(asciiString) {
 					asciiContainer.innerHTML = asciiString;
 				}
