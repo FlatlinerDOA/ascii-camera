@@ -8,16 +8,18 @@
 
 (function() {
 	var asciiContainer = document.getElementById("ascii");
+	var dataRate = document.getElementById("dataRate");
 	var widthInput = document.getElementById("captureWidth");
 	var heightInput = document.getElementById("captureHeight");
 	var contrastInput = document.getElementById("contrast");
 	var charactersInput = document.getElementById("characters");
+	var fps = 30;
 	var capturing = false;
 	
 	camera.init({
 		width: parseInt(widthInput.value) || 160,
 		height: parseInt(heightInput.value) || 120,
-		fps: 30,
+		fps: fps,
 		mirror: true,
 
 		onFrame: function(canvas) {
@@ -25,6 +27,7 @@
 				contrast: parseInt(contrastInput.value) || 128,
 				characters: charactersInput.value,
 				callback: function(asciiString) {
+					dataRate.value = (asciiString.length * fps) + 'bytes/s ' + (LZW.compress(asciiString).length * fps) + ' b/s compressed';
 					asciiContainer.innerHTML = asciiString;
 				}
 			});
