@@ -8,17 +8,20 @@
 
 (function() {
 	var asciiContainer = document.getElementById("ascii");
+	var widthInput = document.getElementById("captureWidth");
+	var heightInput = document.getElementById("captureHeight");
+	var contrastInput = document.getElementById("contrast");
 	var capturing = false;
-
+	
 	camera.init({
-		width: 160,
-		height: 120,
+		width: parseInt(widthInput.value) || 160,
+		height: parseInt(heightInput.value) || 120,
 		fps: 30,
 		mirror: true,
 
 		onFrame: function(canvas) {
 			ascii.fromCanvas(canvas, {
-				// contrast: 128,
+				contrast: parseInt(contrastInput.value) || 128,
 				callback: function(asciiString) {
 					asciiContainer.innerHTML = asciiString;
 				}
