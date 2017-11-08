@@ -16,47 +16,52 @@
 	var fps = 30;
 	var capturing = false;
 	//var gzip = require('gzip-js');
-	
-	camera.init({
-		width: parseInt(widthInput.value) || 160,
-		height: parseInt(heightInput.value) || 120,
-		fps: fps,
-		mirror: true,
+	document.getElementById("pause").onclick = function() {
+		document.getElementById("pause").innerText = "Pause";
+		camera.init({
+			width: parseInt(widthInput.value) || 160,
+			height: parseInt(heightInput.value) || 120,
+			fps: fps,
+			mirror: true,
 
-		onFrame: function(canvas) {
-			ascii.fromCanvas(canvas, {
-				contrast: parseInt(contrastInput.value) || 128,
-				characters: charactersInput.value,
-				callback: function(asciiString) {
-					dataRate.value = Math.round(((asciiString.length * fps) / 1024), 1) + ' kb/s gzipped';
-					asciiContainer.innerHTML = asciiString;
-				}
-			});
-		},
+			onFrame: function(canvas) {
+				ascii.fromCanvas(canvas, {
+					contrast: parseInt(contrastInput.value) || 128,
+					characters: charactersInput.value,
+					callback: function(asciiString) {
+						dataRate.value = Math.round(((asciiString.length * fps) / 1024), 1) + ' kb/s gzipped';
+						asciiContainer.innerHTML = asciiString;
+					}
+				});
+			},
 
-		onSuccess: function() {
-			document.getElementById("info").style.display = "none";
+			onSuccess: function() {
+				document.getElementById("info").style.display = "none";
 
-			capturing = true;
-			document.getElementById("pause").style.display = "block";
-			document.getElementById("pause").onclick = function() {
-				if (capturing) {
-					camera.pause();
-				} else {
-					camera.start();
-				}
-				capturing = !capturing;
-			};
-		},
+				capturing = true;
+				document.getElementById("pause").style.display = "block";
+				document.getElementById("pause").onclick = function() {
+					if (capturing) {
+						camera.pause();
+						document.getElementById("pause").innerText = "Resume";
 
-		onError: function(error) {
-			// TODO: log error
-		},
+					} else {
+						camera.start();
+						document.getElementById("pause").innerText = "Pause";
+					}
+					capturing = !capturing;
+				};
+			},
 
-		onNotSupported: function() {
-			document.getElementById("info").style.display = "none";
-			asciiContainer.style.display = "none";
-			document.getElementById("notSupported").style.display = "block";
-		}
-	});
+			onError: function(error) {
+				// TODO: log error
+			},
+
+			onNotSupported: function() {
+				document.getElementById("info").style.display = "none";
+				asciiContainer.style.display = "none";
+				document.getElementById("notSupported").style.display = "block";
+			}
+		});
+	};
 })();
