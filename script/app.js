@@ -28,7 +28,7 @@
 				contrast: parseInt(contrastInput.value) || 128,
 				characters: charactersInput.value,
 				callback: function(asciiString) {
-					dataRate.value = Math.round((asciiString.length * fps) / 1024), 1) + ' kb/s gzipped';
+					dataRate.value = Math.round(((asciiString.length * fps) / 1024), 1) + ' kb/s gzipped';
 					asciiContainer.innerHTML = asciiString;
 				}
 			});
