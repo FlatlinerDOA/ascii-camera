@@ -15,7 +15,7 @@
 	var charactersInput = document.getElementById("characters");
 	var fps = 30;
 	var capturing = false;
-	var gzip = require('gzip-js');
+	//var gzip = require('gzip-js');
 	
 	camera.init({
 		width: parseInt(widthInput.value) || 160,
@@ -28,7 +28,7 @@
 				contrast: parseInt(contrastInput.value) || 128,
 				characters: charactersInput.value,
 				callback: function(asciiString) {
-					dataRate.value = Math.round(((gzip.zip(asciiString).length * fps) /1024), 1) + ' kb/s gzipped';
+					dataRate.value = Math.round((asciiString.length * fps) / 1024), 1) + ' kb/s gzipped';
 					asciiContainer.innerHTML = asciiString;
 				}
 			});
