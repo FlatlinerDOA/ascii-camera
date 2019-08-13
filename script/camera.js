@@ -15,13 +15,16 @@ var camera = (function() {
 		video = document.createElement("video");
 		video.setAttribute('width', options.width);
 		video.setAttribute('height', options.height);
+		video.setAttribute('playsinline', 'true');
+		video.setAttribute('webkit-playsinline', 'true');
 
 		navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 		window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
 
 		if (navigator.getUserMedia) {
 			navigator.getUserMedia({
-				video: true
+				video: true,
+				audio: false
 			}, function(stream) {
 				options.onSuccess();
 
@@ -31,7 +34,7 @@ var camera = (function() {
 					try {
 						video.srcObject = stream;
 					} catch (error) {
-					video.src = (window.URL && window.URL.createObjectURL(stream)) || stream;
+						video.src = (window.URL && window.URL.createObjectURL(stream)) || stream;
 					}
 				}
 				
@@ -77,7 +80,11 @@ var camera = (function() {
 		if (video.mozSrcObject !== undefined) {
 			video.mozSrcObject = null;
 		} else {
-			video.src = "";
+			try {
+				video.srcObject = null;
+			} catch(e) {
+				video.src = "";
+			}
 		}
 	}
 
